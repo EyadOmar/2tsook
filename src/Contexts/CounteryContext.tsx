@@ -1,14 +1,20 @@
-import {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { ReactNode, createContext, useContext, useState } from 'react';
+import Cookies from 'js-cookie';
+
+export interface counteryDataTypes {
+  id: number;
+  name: string;
+  nameArabic: string;
+  currency: string;
+  currencyArabic: string;
+  countryCode: string;
+  isActive: boolean;
+  countryImage: string | null;
+}
 
 type CounteryContextType = {
   currCountery: object;
-  setCurrCountery: (value: object) => void;
+  toggleCountery: (value: counteryDataTypes) => void;
 };
 
 const CounteryContext = createContext<CounteryContextType | null>(null);
@@ -25,16 +31,26 @@ type CounteryContextProviderProps = {
 };
 
 function CounteryContextProvider({ children }: CounteryContextProviderProps) {
-  const [currCountery, setCurrCountery] = useState({});
+  const [currCountery, setCurrCountery] = useState<counteryDataTypes>(
+    (Cookies.get('countery') && JSON.parse(Cookies.get('countery'))) || {
+      id: 25,
+      name: 'Canada',
+      nameArabic: 'كندا',
+      currency: 'CAD',
+      currencyArabic: 'دولار',
+      countryCode: 'CA',
+      isActive: true,
+      countryImage: null,
+    }
+  );
 
-  useEffect(() => {
-    fetch('https://ipapi.co/json/')
-      .then((res) => res.json())
-      .then((data) => setCurrCountery(data));
-  }, []);
+  function toggleCountery(countery: counteryDataTypes) {
+    setCurrCountery(countery);
+    Cookies.set('countery', JSON.stringify(countery));
+  }
 
   return (
-    <CounteryContext.Provider value={{ currCountery, setCurrCountery }}>
+    <CounteryContext.Provider value={{ currCountery, toggleCountery }}>
       {children}
     </CounteryContext.Provider>
   );

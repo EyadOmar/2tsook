@@ -7,13 +7,13 @@
 }
 
 .drop-down {
-  @apply bg-secondary absolute z-10 border-primary border;
+  @apply bg-secondary absolute z-10 border-primary border w-max;
 }
 
-.drop-down li button {
+.drop-down li {
   @apply w-full px-2 py-1 hover:bg-primary transition-colors duration-200;
 }
 
-.drop-down li:not(:last-of-type) button {
+.drop-down li:not(:last-of-type) {
   @apply border-b-primary border-b;
 }
