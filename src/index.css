@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.my-container {
+  @apply px-4 sm:px-5 md:px-9 lg:px-16 max-w-[1260px] mx-auto;
+}
+
+.drop-down {
+  @apply bg-secondary absolute z-10 border-primary border;
+}
+
+.drop-down li button {
+  @apply w-full px-2 py-1 hover:bg-primary transition-colors duration-200;
+}
+
+.drop-down li:not(:last-of-type) button {
+  @apply border-b-primary border-b;
+}

@@ -1,5 +1,11 @@
+import UserControlls from './layout/UserControlls';
+
 function App() {
-  return <div className="text-6xl text-red-500">Hello</div>;
+  return (
+    <>
+      <UserControlls />
+    </>
+  );
 }
 
 export default App;
