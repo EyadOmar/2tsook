@@ -1,4 +1,6 @@
-export default {
+type counteriesCodesType = object;
+
+const counteriesCodes: counteriesCodesType = {
   Canada: 'ca',
   Yemen: 'ye',
   Egypt: 'eg',
@@ -7,3 +9,5 @@ export default {
   Oman: 'om',
   US: 'us',
 };
+
+export default counteriesCodes;

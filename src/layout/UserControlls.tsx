@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import counteriesCodes from '../data/counteries';
+import { useCounteryContext } from '../Contexts/CounteryContext';
 
 function UserControlls() {
   const { t } = useTranslation();
@@ -87,16 +88,18 @@ function LangSelector() {
 function CounterySelector() {
   const [isCounteryOpen, setIsCounteryOpen] = useState(false);
   const [counteries, setCounteries] = useState([]);
-  const [currentCountery, setCurrentCountery] = useState({});
+  const { currCountery, setCurrCountery } = useCounteryContext();
+
+  type counteryType = {
+    id: number;
+    name: string;
+    nameArabic: string;
+  };
 
   useEffect(() => {
     fetch('http://mohagado-001-site1.itempurl.com/Country')
       .then((res) => res.json())
       .then((data) => setCounteries(data));
-
-    fetch('https://ipapi.co/json/')
-      .then((res) => res.json())
-      .then((data) => setCurrentCountery(data));
   }, []);
 
   return (
@@ -106,15 +109,15 @@ function CounterySelector() {
       className="lang relative"
     >
       <button className="flex items-center gap-2 ">
-        {currentCountery.country_name
-          ? currentCountery.country_name
-          : currentCountery.name}
+        {currCountery.country_name
+          ? currCountery.country_name
+          : currCountery.name}
         <div
           className={`fi fi-${
             counteriesCodes[
-              currentCountery.country_name
-                ? currentCountery.country_name
-                : currentCountery.name
+              currCountery.country_name
+                ? currCountery.country_name
+                : currCountery.name
             ]
           }
           } fis`}
@@ -129,10 +132,10 @@ function CounterySelector() {
             exit={{ opacity: 0, y: -10 }}
             className="drop-down"
           >
-            {counteries.map((countery) => (
+            {counteries.map((countery: counteryType) => (
               <li key={`counter-${countery.id}`}>
                 <button
-                  onClick={() => setCurrentCountery(countery)}
+                  onClick={() => setCurrCountery(countery)}
                   className=" flex items-center justify-between text-nowrap gap-1"
                 >
                   {i18n.language === 'en' ? countery.name : countery.nameArabic}
